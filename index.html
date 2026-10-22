@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReWave | Smart Water Recycling</title>
+<style>
+:root {
+  --blue:#0878d1;
+  --deep:#0755a6;
+  --light:#e8f6ff;
+  --bg:#f5fbff;
+  --green:#22c55e;
+  --yellow:#facc15;
+  --red:#ef4444;
+}
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#153650}
+nav{position:sticky;top:0;background:white;padding:17px 7%;display:flex;
+justify-content:space-between;align-items:center;box-shadow:0 3px 18px #0755a610;z-index:10}
+.logo{font-size:25px;font-weight:900;color:var(--blue)}
+nav a{color:#315875;text-decoration:none;margin:0 8px;font-weight:bold;font-size:14px}
+button,.btn{border:0;border-radius:10px;background:var(--blue);color:white;
+padding:12px 17px;font-weight:bold;cursor:pointer;text-decoration:none;display:inline-block}
+button:hover,.btn:hover{background:var(--deep)}
+.hero{padding:75px 7%;display:grid;grid-template-columns:1.1fr .9fr;gap:35px;
+align-items:center;background:linear-gradient(120deg,#e4f5ff,#fff)}
+.tag{color:var(--blue);font-weight:bold;letter-spacing:2px;font-size:12px}
+h1{font-size:clamp(40px,5vw,65px);line-height:1.06;margin:18px 0}
+h1 span{color:var(--blue)}
+p{line-height:1.7;color:#59748a}
+.hero-art,.card{background:white;border:1px solid #d8edfc;border-radius:22px;
+padding:25px;box-shadow:0 12px 35px #0878d10e}
+.tank{height:150px;border:3px solid #8dcff7;border-radius:15px;position:relative;
+overflow:hidden;margin:20px 0;background:#e9f8ff}
+.water{position:absolute;bottom:0;width:100%;height:60%;background:#168beb;
+animation:wave 3s infinite alternate}
+.tank-label{position:absolute;inset:0;display:grid;place-items:center;color:white;
+font-weight:bold;text-shadow:0 1px 5px #0755a6;z-index:1}
+@keyframes wave{from{height:45%}to{height:75%}}
+.flow{display:flex;justify-content:space-around;align-items:center;gap:6px;text-align:center}
+.flow div{background:#edf8ff;border-radius:12px;padding:12px 7px;flex:1;font-size:13px}
+.flow b{font-size:27px;display:block}
+section{padding:65px 7%}
+h2{font-size:clamp(27px,4vw,39px);margin:10px 0}
+.heading{text-align:center;max-width:700px;margin:0 auto 35px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.stat{text-align:center;background:white;padding:22px 10px;border-radius:17px;border:1px solid #d8edfc}
+.stat strong{display:block;font-size:27px;color:var(--blue)}
+.stat span{font-size:13px;color:#59748a}
+.stage{width:100%;text-align:left;margin:5px 0;background:white;color:#173b58;
+border:1px solid #d8edfc}
+.stage.active{background:#e1f4ff;border:2px solid var(--blue)}
+.stage-info{min-height:200px}
+.led{width:17px;height:17px;border-radius:50%;display:inline-block;margin-right:8px}
+.green{background:var(--green);box-shadow:0 0 12px #22c55e88}
+.yellow{background:var(--yellow);box-shadow:0 0 12px #facc1588}
+.red{background:var(--red);box-shadow:0 0 12px #ef444488}
+.sensor-row{display:flex;gap:10px;flex-wrap:wrap}
+.sensor{flex:1;min-width:120px;padding:16px;background:#f0f9ff;border-radius:13px}
+.sensor strong{display:block;font-size:25px;color:var(--blue);margin-top:8px}
+input[type=range]{width:100%;accent-color:var(--blue)}
+label{display:block;font-weight:bold;margin:18px 0 6px}
+.result{background:linear-gradient(135deg,#0755a6,#168beb);color:white;
+border-radius:20px;padding:25px}
+.result p,.result small{color:#e1f3ff}
+.result strong{font-size:30px;display:block;margin:10px 0}
+.cost-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #e0eef8;padding:12px 0}
+.cost-row input{width:100px;border:1px solid #cfe4f3;padding:8px;border-radius:8px}
+.note{font-size:12px;color:#6a8498}
+footer{background:#07365f;color:white;padding:35px 7%;text-align:center}
+footer p{color:#d4eaff}
+@media(max-width:800px){
+ nav{flex-wrap:wrap;gap:10px}nav div:last-child{display:flex;flex-wrap:wrap;gap:8px}
+ nav a{margin:3px;font-size:12px}.hero{grid-template-columns:1fr;padding-top:45px}
+ .grid{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}
+}
+@media(max-width:500px){.grid{grid-template-columns:1fr}.flow div{font-size:10px;padding:8px 3px}
+ section{padding:48px 5%}.hero{padding:45px 5%}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">💧 ReWave</div>
+  <div>
+    <a href="#how">How It Works</a>
+    <a href="#monitor">Sensors</a>
+    <a href="#calculator">Calculator</a>
+    <a href="#cost">Cost</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div>
+    <div class="tag">SMART WATER CONSERVATION</div>
+    <h1>Every Drop Deserves a <span>Second Life.</span></h1>
+    <p>ReWave collects lightly used wash basin water, treats it using a proposed filtration system, and helps recover water for suitable non-drinking uses in colleges, hostels and public buildings.</p>
+    <a class="btn" href="#how">Explore the System ↓</a>
+    <a class="btn" style="background:white;color:#0878d1;border:1px solid #b8dff9" href="#calculator">Calculate Savings</a>
+  </div>
+  <div class="hero-art">
+    <div class="flow">
+      <div><b>🚰</b>Wash basin</div><div>➜</div>
+      <div><b>🧰</b>Filter</div><div>➜</div>
+      <div><b>💧</b>Reuse</div>
+    </div>
+    <div class="tank"><div class="water"></div><div class="tank-label">RECYCLED NON-POTABLE WATER</div></div>
+    <div><span class="led green"></span>Within demo limits
+    &nbsp; <span class="led yellow"></span>Caution
+    &nbsp; <span class="led red"></span>Reject</div>
+    <p class="note">Illustrative concept — no physical sensors are connected.</p>
+  </div>
+</header>
+
+<section>
+  <div class="heading"><div class="tag">THE OPPORTUNITY</div>
+  <h2>Waste less. Reuse smarter.</h2>
+  <p>See how wash basin water could become a useful resource instead of flowing straight into the drain.</p></div>
+  <div class="stats">
+    <div class="stat"><strong id="statCollected">0 L</strong><span>Estimated water collected / month</span></div>
+    <div class="stat"><strong id="statRecovered">0 L</strong><span>Estimated water recovered / month</span></div>
+    <div class="stat"><strong>6</strong><span>Stages in the proposed system</span></div>
+    <div class="stat"><strong>3</strong><span>Sensor status indicators</span></div>
+  </div>
+  <p class="note" style="text-align:center">All water figures are estimates based on the calculator's initial assumptions.</p>
+</section>
+
+<section id="how" style="background:white">
+  <div class="heading"><div class="tag">INTERACTIVE SYSTEM</div>
+  <h2>How ReWave Works</h2>
+  <p>Click each stage to explore the proposed water recycling process.</p></div>
+  <div class="grid">
+    <div>
+      <button class="stage active" onclick="showStage(0)">01 · Water collection</button>
+      <button class="stage" onclick="showStage(1)">02 · Preliminary filtration</button>
+      <button class="stage" onclick="showStage(2)">03 · Water treatment</button>
+      <button class="stage" onclick="showStage(3)">04 · Smart monitoring</button>
+      <button class="stage" onclick="showStage(4)">05 · Covered storage</button>
+      <button class="stage" onclick="showStage(5)">06 · Reuse</button>
+    </div>
+    <div class="card stage-info" style="grid-column:span 2">
+      <div id="stageIcon" style="font-size:45px">🚰</div>
+      <h3 id="stageTitle">Water collection</h3>
+      <p id="stageDesc">Water from the wash basin enters a collection pipe and tank. A mesh screen catches larger debris, while a level sensor monitors the tank.</p>
+      <p><b>Equipment:</b> <span id="stageEquip">Collection pipe, mesh screen and tank-level sensor.</span></p>
+      <p><b>Maintenance:</b> <span id="stageCare">Inspect the tank and clean trapped debris regularly.</span></p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:25px">
+    <h3>💦 Water flow simulation</h3>
+    <div class="flow" id="flowStages">
+      <div><b>🚰</b>Collection</div><div><b>🧺</b>Mesh</div>
+      <div><b>🫧</b>Treatment</div><div><b>📟</b>Sensors</div>
+      <div><b>🛢️</b>Storage</div><div><b>🌱</b>Reuse</div>
+    </div>
+    <p id="flowMessage">Press the button to animate the proposed process.</p>
+    <button onclick="runFlow()">▶ Run Water Flow</button>
+  </div>
+</section>
+
+<section id="monitor">
+  <div class="heading"><div class="tag">SMART MONITORING</div>
+  <h2>Three lights. Clearer decisions.</h2>
+  <p>Example dashboard readings are simulated. Actual hardware requires sensors, calibration and tested control logic.</p></div>
+  <div class="grid">
+    <div class="card">
+      <h3>Example sensor readings</h3>
+      <div class="sensor-row">
+        <div class="sensor">Tank level<strong id="level">68%</strong></div>
+        <div class="sensor">Turbidity<strong id="turbidity">8 NTU</strong></div>
+        <div class="sensor">pH<strong id="ph">7.2</strong></div>
+      </div>
+      <p class="note">These readings are simulated demonstration values, not live measurements.</p>
+      <button onclick="changeSensors()">Change Demo Readings</button>
+    </div>
+    <div class="card">
+      <h3>System status</h3>
+      <p><span class="led green"></span><b>GREEN — Within configured limits</b><br><small>Monitored parameters meet preset demo criteria.</small></p>
+      <p><span class="led yellow"></span><b>YELLOW — Caution / retest</b><br><small>Hold water for further checking or treatment.</small></p>
+      <p><span class="led red"></span><b>RED — Reject / treatment required</b><br><small>Hold or divert water according to the validated design.</small></p>
+      <p class="note">pH and turbidity alone cannot confirm microbiological safety. Green does not mean drinkable.</p>
+    </div>
+  </div>
+</section>
+
+<section id="calculator" style="background:white">
+  <div class="heading"><div class="tag">WATER SAVINGS CALCULATOR</div>
+  <h2>Estimate your campus impact.</h2>
+  <p>Adjust the values and the estimated recovery updates instantly.</p></div>
+  <div class="grid">
+    <div class="card">
+      <label>Number of wash basins: <span id="basinsValue">12</span></label>
+      <input id="basins" type="range" min="1" max="100" value="12" oninput="calculate()">
+      <label>Users per basin per day: <span id="usersValue">40</span></label>
+      <input id="users" type="range" min="5" max="250" value="40" oninput="calculate()">
+      <label>Litres per handwash: <span id="litresValue">1.5 L</span></label>
+      <input id="litres" type="range" min="0.2" max="5" step="0.1" value="1.5" oninput="calculate()">
+      <label>Operating days per month: <span id="daysValue">30</span></label>
+      <input id="days" type="range" min="1" max="31" value="30" oninput="calculate()">
+      <label>Estimated recovery rate: <span id="recoveryValue">80%</span></label>
+      <input id="recovery" type="range" min="10" max="95" step="5" value="80" oninput="calculate()">
+      <br><br><button onclick="hostelPreset()">Load Hostel Example</button>
+    </div>
+    <div class="result">
+      <h3>Estimated water impact</h3>
+      <p>Based on your selected assumptions</p>
+      <small>Daily greywater collected</small><strong id="daily">720 L</strong>
+      <hr style="border-color:#ffffff55">
+      <small>Monthly water recovered</small><strong id="monthly">17,280 L</strong>
+      <hr style="border-color:#ffffff55">
+      <small>Annual water recovered</small><strong id="annual">207,360 L</strong>
+      <p class="note">Estimates only. Actual recovery depends on water usage, losses and validated treatment performance.</p>
+    </div>
+  </div>
+</section>
+
+<section id="cost">
+  <div class="heading"><div class="tag">PRELIMINARY BUDGET</div>
+  <h2>Affordable and maintainable.</h2>
+  <p>Edit the example costs to estimate a prototype budget in Indian rupees.</p></div>
+  <div class="card">
+    <div class="cost-row"><span>Collection and storage tanks</span><input class="cost" type="number" value="3500" min="0"></div>
+    <div class="cost-row"><span>Pipes, fittings and valves</span><input class="cost" type="number" value="2000" min="0"></div>
+    <div class="cost-row"><span>Mesh and filter media</span><input class="cost" type="number" value="2500" min="0"></div>
+    <div class="cost-row"><span>Sensors</span><input class="cost" type="number" value="2500" min="0"></div>
+    <div class="cost-row"><span>Controller, LEDs and wiring</span><input class="cost" type="number" value="1500" min="0"></div>
+    <div class="cost-row"><span>Pump, if required</span><input class="cost" type="number" value="1800" min="0"></div>
+    <div class="cost-row"><span>Installation and miscellaneous</span><input class="cost" type="number" value="2500" min="0"></div>
+    <h2>Estimated total: <span id="totalCost" style="color:#0878d1">₹16,300</span></h2>
+    <p class="note">Indicative editable estimates, not supplier quotations. Actual costs depend on capacity, treatment needs, local prices and installation.</p>
+  </div>
+</section>
+
+<section style="background:white">
+  <div class="heading"><div class="tag">MAINTENANCE & SAFETY</div>
+  <h2>Built around responsible reuse.</h2></div>
+  <div class="grid">
+    <div class="card"><h3>🧺 Clean filters</h3><p>Inspect mesh screens, remove debris and check for blockages based on actual usage.</p></div>
+    <div class="card"><h3>📟 Check sensors</h3><p>Inspect sensor condition, calibration and readings. Retest when values are unusual.</p></div>
+    <div class="card"><h3>🛡️ Separate plumbing</h3><p>Use covered, labelled non-potable storage and separate plumbing to prevent cross-connections.</p></div>
+  </div>
+  <div class="card" style="margin-top:20px">
+    <h3>Proposed engineering flow</h3>
+    <p style="text-align:center;font-weight:bold;color:#0878d1">Wash basin → Collection pipe → Mesh filter → Settling chamber → Treatment filter → Validated treatment if needed → Monitoring → Covered storage → Non-potable reuse</p>
+    <p class="note">This is a proposed concept. Filter media alone do not guarantee safe water. Prototype testing, suitable water-quality analysis and compliance with applicable requirements are needed before real-world deployment.</p>
+  </div>
+</section>
+
+<footer>
+  <h2 style="color:white">ReWave 💧</h2>
+  <p>Every drop deserves a second life.</p>
+  <p>Student sustainability concept · Smart wash basin water recycling</p>
+  <p class="note">All dashboard data and savings examples are illustrative. No physical sensors are connected.</p>
+</footer>
+
+<script>
+const stages=[
+ {icon:"🚰",title:"Water collection",desc:"Lightly used water flows from the wash basin into a collection tank. A mesh screen catches larger debris, while a level sensor monitors the tank.",equip:"Collection pipe, mesh screen, tank and level sensor.",care:"Inspect the tank and remove trapped debris regularly."},
+ {icon:"🧺",title:"Preliminary filtration",desc:"A removable mesh catches hair and larger particles. A settling chamber allows heavier particles to settle before the next stage.",equip:"Removable mesh, settling chamber and access lid.",care:"Clean the mesh and inspect settled material frequently."},
+ {icon:"🫧",title:"Water treatment",desc:"Suitable filter media may reduce particles and some impurities. Depending on the intended reuse, additional validated treatment or disinfection may be required.",equip:"Filter housing, selected filter media and optional disinfection.",care:"Check flow and replace media according to the validated design."},
+ {icon:"📟",title:"Smart monitoring",desc:"Sensors can monitor selected indicators such as turbidity, pH and tank level. A controller can compare readings with preset criteria and activate status lights.",equip:"Sensors, microcontroller and red-yellow-green LEDs.",care:"Check calibration and confirm performance with suitable water testing."},
+ {icon:"🛢️",title:"Covered storage",desc:"Water that passes the validated treatment process is stored in a covered, labelled tank for approved non-drinking uses.",equip:"Covered tank, level sensor and overflow protection.",care:"Inspect tank covers, level sensors and overflow routes."},
+ {icon:"🌱",title:"Suitable reuse",desc:"Recovered water may be used for approved non-drinking purposes such as toilet flushing, floor cleaning or gardening, subject to testing and applicable requirements.",equip:"Separate, labelled non-potable pipes and outlets.",care:"Prevent cross-connections with drinking-water plumbing."}
+];
+function showStage(i){
+ document.querySelectorAll(".stage").forEach((b,n)=>b.classList.toggle("active",n===i));
+ document.getElementById("stageIcon").textContent=stages[i].icon;
+ document.getElementById("stageTitle").textContent=stages[i].title;
+ document.getElementById("stageDesc").textContent=stages[i].desc;
+ document.getElementById("stageEquip").textContent=stages[i].equip;
+ document.getElementById("stageCare").textContent=stages[i].care;
+}
+let flowTimer;
+function runFlow(){
+ clearInterval(flowTimer);let i=0;
+ const boxes=document.querySelectorAll("#flowStages div");
+ function tick(){boxes.forEach((b,n)=>b.style.background=n===i?"#bce8ff":"#edf8ff");
+ document.getElementById("flowMessage").textContent="Stage "+(i+1)+": "+stages[i].title;
+ showStage(i);i++;
+ if(i>=boxes.length){clearInterval(flowTimer);document.getElementById("flowMessage").textContent="Simulation complete — illustrative only.";}}
+ tick();flowTimer=setInterval(tick,1000);
+}
+function calculate(){
+ const b=+document.getElementById("basins").value;
+ const u=+document.getElementById("users").value;
+ const l=+document.getElementById("litres").value;
+ const d=+document.getElementById("days").value;
+ const r=+document.getElementById("recovery").value/100;
+ const daily=b*u*l, monthly=daily*d*r, annual=monthly*12;
+ document.getElementById("basinsValue").textContent=b;
+ document.getElementById("usersValue").textContent=u;
+ document.getElementById("litresValue").textContent=l.toFixed(1)+" L";
+ document.getElementById("daysValue").textContent=d;
+ document.getElementById("recoveryValue").textContent=Math.round(r*100)+"%";
+ document.getElementById("daily").textContent=Math.round(daily).toLocaleString("en-IN")+" L";
+ document.getElementById("monthly").textContent=Math.round(monthly).toLocaleString("en-IN")+" L";
+ document.getElementById("annual").textContent=Math.round(annual).toLocaleString("en-IN")+" L";
+ document.getElementById("statCollected").textContent=Math.round(daily*d).toLocaleString("en-IN")+" L";
+ document.getElementById("statRecovered").textContent=Math.round(monthly).toLocaleString("en-IN")+" L";
+}
+function hostelPreset(){
+ document.getElementById("basins").value=30;
+ document.getElementById("users").value=70;
+ document.getElementById("litres").value=1.5;
+ document.getElementById("days").value=30;
+ document.getElementById("recovery").value=75;
+ calculate();
+}
+let sensorAlt=false;
+function changeSensors(){
+ sensorAlt=!sensorAlt;
+ document.getElementById("level").textContent=sensorAlt?"91%":"52%";
+ document.getElementById("turbidity").textContent=sensorAlt?"28 NTU":"12 NTU";
+ document.getElementById("ph").textContent=sensorAlt?"8.6":"7.4";
+}
+function updateCost(){
+ let total=0;
+ document.querySelectorAll(".cost").forEach(input=>total+=Math.max(0,Number(input.value)||0));
+ document.getElementById("totalCost").textContent="₹"+Math.round(total).toLocaleString("en-IN");
+}
+document.querySelectorAll(".cost").forEach(input=>input.addEventListener("input",updateCost));
+calculate();updateCost();
+</script>
+</body>
+</html>
